@@ -4,34 +4,47 @@ import SwipeToFetchButton from '../components/SwipeToFetchButton';
 import useFetchNews from '../hooks/useFetchNews';
 import ArticleCard from '../components/ArticleCard';
 
+// Define type for news item
+interface newsItem {
+  title: string,
+  description: string,
+  urlToImage: string,
+  publishedAt: string,
+}
+
 const NewsFeedScreen: React.FC = () => {
   const [fetchNews, setFetchNews] = useState(false);
+  // Fetch news data using custom hook
   const { news, isLoading, isError } = useFetchNews(fetchNews);
 
+  // Callback when swipe action is completed and start news fetch
   const handleSwipeComplete = () => {
     setFetchNews(true);
   };
 
   // Filter articles to include only those with valid image, title, and description
-  const validNews = news?.filter((item: { urlToImage: string; title: string; description: string; }) => item.urlToImage && item.title && item.description) || [];
+  const validNews = news?.filter((item: newsItem) => item.urlToImage && item.title && item.description) || [];
 
   return (
     <View style={styles.container}>
       <SwipeToFetchButton onSwipeComplete={handleSwipeComplete} />
+      {/* On render when the swipe action is completed */}
       {fetchNews ? (
-        isLoading ? (
+        isLoading ? ( // Render loading message while fetching news
           <Text style={styles.message}>Loading...</Text>
-        ) : isError ? (
+        ) : isError ? ( // Render error message if there is an error fetching news
           <Text style={styles.message}>Error fetching news</Text>
         ) : (
+          // using FlatList as it increases performance by rendering lazily.
           <FlatList
             data={validNews}
-            keyExtractor={(item, index) => `${item.url}-${index}`}
             renderItem={({ item }) => (
+              // An ArticleCard is rendered for each item.
               <ArticleCard
                 title={item.title}
                 description={item.description}
                 imageUrl={item.urlToImage}
+                publishedAt={item.publishedAt}
               />
             )}
             contentContainerStyle={styles.newsContainer}
@@ -42,6 +55,7 @@ const NewsFeedScreen: React.FC = () => {
   );
 };
 
+// Styles for NewsFeedScreen component
 const styles = StyleSheet.create({
   container: {
     flex: 1,

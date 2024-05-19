@@ -4,25 +4,35 @@
  *
  * @param onSwipeComplete - Callback function to execute when swipe is completed.
  */
-// src/components/SwipeToFetchButton.tsx
 import React, { useState } from 'react';
-import { Animated, PanResponder, StyleSheet, View, Text } from 'react-native';
+import { Animated, PanResponder, StyleSheet, View, Text, Dimensions } from 'react-native';
 
 interface SwipeToFetchButtonProps {
   onSwipeComplete: () => void;
 }
 
+const { width: SCREEN_WIDTH } = Dimensions.get('window');
+const BUTTON_WIDTH = SCREEN_WIDTH - 40;
+const SWIPE_BUTTON_SIZE = 60;
+
 const SwipeToFetchButton: React.FC<SwipeToFetchButtonProps> = ({ onSwipeComplete }) => {
   const [dragX] = useState(new Animated.Value(0));
 
   const panResponder = PanResponder.create({
+
     onMoveShouldSetPanResponder: () => true,
+
+    // Map pan responder move event to the dragX animated value
     onPanResponderMove: Animated.event([null, { dx: dragX }], { useNativeDriver: false }),
+
     onPanResponderRelease: (_, { dx }) => {
-      if (dx > 100) {
+      // Check if the swipe distance is enough to trigger the action
+      if (dx >= BUTTON_WIDTH - SWIPE_BUTTON_SIZE) {
+        // Execute the callback function and reset the position of the swipe button if fully swiped
         onSwipeComplete();
         Animated.spring(dragX, { toValue: 0, useNativeDriver: false }).start();
       } else {
+        // Reset the position of the swipe button if not fully swiped
         Animated.spring(dragX, { toValue: 0, useNativeDriver: false }).start();
       }
     },
@@ -66,4 +76,3 @@ const styles = StyleSheet.create({
 });
 
 export default SwipeToFetchButton;
-

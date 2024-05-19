@@ -1,70 +1,68 @@
 import React from 'react';
 import { View, Text, Image, StyleSheet } from 'react-native';
 
+// Article cards props defination
 interface ArticleCardProps {
   title: string;
   description: string;
-  imageUrl: string | null;
+  imageUrl: string;
+  publishedAt: string;
 }
 
-const ArticleCard: React.FC<ArticleCardProps> = ({ title, description, imageUrl }) => {
+// Article Card Component for reusability
+const ArticleCard: React.FC<ArticleCardProps> = ({ title, description, imageUrl, publishedAt }) => {
   return (
     <View style={styles.card}>
-      {imageUrl ? (
-        <Image source={{ uri: imageUrl }} style={styles.image} />
-      ) : (
-        <View style={styles.placeholder}>
-          <Text style={styles.placeholderText}>No Image Available</Text>
-        </View>
-      )}
-      <View style={styles.textContainer}>
+      <Image source={{ uri: imageUrl }} style={styles.image} />
+      <View style={styles.content}>
         <Text style={styles.title}>{title}</Text>
         <Text style={styles.description}>{description}</Text>
+        <Text style={styles.publishedAt}>{new Date(publishedAt).toDateString()}</Text>
       </View>
     </View>
   );
 };
 
+// Styles for the component
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: '#fff',
-    borderRadius: 10,
-    padding: 10,
-    marginVertical: 10,
-    shadowColor: '#000',
-    shadowOpacity: 0.1,
-    shadowRadius: 5,
+    backgroundColor: '#ffffff',
+    borderRadius: 8,
+    marginBottom: 20,
+    overflow: 'hidden',
     elevation: 2,
   },
   image: {
-    width: '100%',
     height: 200,
-    borderRadius: 10,
-  },
-  placeholder: {
     width: '100%',
-    height: 200,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#f0f0f0',
-    borderRadius: 10,
   },
-  placeholderText: {
-    color: '#aaa',
-  },
-  textContainer: {
-    marginTop: 10,
+  content: {
+    padding: 15,
   },
   title: {
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: 'bold',
-    color: '#666',
-    padding: 4
+    marginBottom: 10,
+    color: '#111'
   },
   description: {
+    fontSize: 16,
+    marginBottom: 10,
+    color: '#666'
+  },
+  author: {
     fontSize: 14,
-    color: '#666',
-    padding: 2
+    color: '#888888',
+    marginBottom: 5,
+  },
+  publishedAt: {
+    fontSize: 14,
+    color: '#888888',
+    marginBottom: 5,
+  },
+  sourceName: {
+    fontSize: 14,
+    color: '#888888',
   },
 });
 
