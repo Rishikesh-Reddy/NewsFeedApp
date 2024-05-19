@@ -1,37 +1,67 @@
 # News Feed App
 
-## Overview
-
-This is a single-screen news feed application developed using React Native and TypeScript. The application fetches news from the NewsAPI.org service and displays them in a swipe-to-fetch manner. It features two custom components: `SwipeToFetchButton` for triggering news fetching and `ArticleCard` for displaying individual news articles.
-
-## Requirements
-
-- Node.js
-- npm or yarn
-- React Native CLI
-- TypeScript
+This is a single-screen news feed application developed using React Native and TypeScript. The application features a custom-made swipe control named "Swipe to Fetch Button" to trigger the fetching of news articles from the NewsAPI.org. The project utilizes the SWR library for efficient data fetching and caching. 
 
 ## Installation
 
-1. Clone this repository to your local machine.
-2. Navigate to the project directory in your terminal.
-3. Run `npm install` or `yarn install` to install the project dependencies.
+To install and run the project, follow these steps:
 
-## Configuration
+1. Clone the repository:
 
-### Environment Variables
+```bash
+git clone https://github.com/Rishikesh-Reddy/news-feed-app.git
+```
 
-This project uses the `react-native-dotenv` package for handling environment variables. Create a `.env` file in the root directory of the project and define your NewsAPI.org API key:
+2. Navigate to the project directory:
 
-```plaintext
+```bash
+cd news-feed-app
+```
+
+3. Install dependencies:
+
+```bash
+npm install
+```
+
+4. Create a `.env` file in the root directory and add your NewsAPI.org API key:
+
+```
 NEWS_API_KEY=your_api_key_here
 ```
 
+5. Run the project:
+
+```bash
+npm start
+```
+
+## Project Structure
+
+The project structure is as follows:
+
+- **components:** Contains reusable UI components used in the application.
+  - `SwipeToFetchButton.tsx`: Custom swipe control component for fetching news articles.
+  - `ArticleCard.tsx`: Component for displaying individual news articles in a card format.
+- **hooks:** Contains custom hooks used for fetching news articles.
+  - `useFetchNews.ts`: Custom hook using SWR for fetching news articles from NewsAPI.org.
+- **screens:** Contains the main screens of the application.
+  - `NewsFeedScreen.tsx`: Main screen displaying the news feed with the Swipe to Fetch button.
+
+## Dependencies
+
+### Production Dependencies
+- **react:** 18.2.0
+- **react-native:** 0.74.1
+- **react-native-dotenv:** 3.4.11
+- **swr:** 2.2.5
+
 ## Usage
 
-### Running the App
+1. The main screen of the application displays a list of news articles.
+2. Swipe the "Swipe to Fetch" button to trigger the fetching of news articles.
+3. Each news article is displayed in a card format, showing the title, description, author, published date, and source name.
 
-- Ensure you have set up your development environment for React Native.
-- Connect a mobile device or start an emulator/simulator.
-- Run `npm start` or `yarn start` to start the Metro bundler.
-- Open another terminal window and run `npm run android` or `npm run ios` to build and run the app on your device/emulator.
+## Architecture Overview
+
+The application follows a modular architecture, with separate components for UI elements and hooks for data fetching. The main screen (`NewsFeedScreen`) contains the logic for fetching news articles and rendering them using the `ArticleCard` component. The `SwipeToFetchButton` component handles the swipe action to trigger the fetching of news articles.
